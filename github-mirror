@@ -31,4 +31,7 @@ cd $REPO_NAME.git
 git fetch -q
 
 echo $REPO_DESCRIPTION > description
-git config --add gitweb.owner "$OWNER_NAME"
+
+if [ -n "$OWNER_NAME" ]; then
+    git config gitweb.owner "$OWNER_NAME"
+fi
