@@ -1,0 +1,20 @@
+#!/bin/bash
+# http://github.com/mattias-ohlsson/github-mirror
+# usage: github-mirror-organization organization-name
+
+set -e
+
+ORGANIZATION=$1
+
+# Change field separator
+IFS=$'\n'
+
+echo "DEBUG: Get repo list from github.com"
+GITHUB_API_REPOS_JSON=$(curl -s https://api.github.com/orgs/$ORGANIZATION/repos)
+REPOLIST=$(echo "$GITHUB_API_REPOS_JSON" | grep '"name":' | cut -d'"' -f4)
+
+for REPONAME in $REPOLIST ; do
+	echo "DEBUG: Repo name: $REPONAME"
+
+	github-mirror $ORGANIZATION/$REPONAME
+done
